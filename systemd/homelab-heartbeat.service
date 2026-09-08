@@ -1,0 +1,11 @@
+[Unit]
+Description=Barni HomeLab Heartbeat Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/homelab-heartbeat.sh
+Restart=always
+User=barni
+
+[Install]
+WantedBy=multi-user.target
