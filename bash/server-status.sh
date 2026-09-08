@@ -45,7 +45,10 @@ systemctl is-active tailscaled
 
 echo
 echo "Firewall:"
-sudo -n ufw status 2>/dev/null | head -1 || echo "Status: requires sudo"
-
+if sudo -n true 2>/dev/null; then
+    sudo -n ufw status | head -1
+else
+    echo "Status: requires sudo"
+fi
 echo
-echo "================================"
+echo "==============================="
