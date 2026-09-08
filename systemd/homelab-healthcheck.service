@@ -1,0 +1,7 @@
+[Unit]
+Description=Barni HomeLab Health Check
+
+[Service]
+Type=oneshot
+User=barni
+ExecStart=/home/barni/homelab/bash/healthcheck.sh
