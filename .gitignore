@@ -1,0 +1,18 @@
+# Secrets and environment files
+.env
+.env.*
+*.secret
+*.token
+
+# SSH private keys
+id_rsa
+id_rsa_*
+id_ed25519
+id_ed25519_*
+*.pem
+*.key
+
+# Temporary files
+*.tmp
+*.log
+*~
