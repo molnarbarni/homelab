@@ -11,3 +11,7 @@
 - `ip a` - Network interfaces
 - `ip route` - Routing table
 - `systemctl --failed` - Failed services
+
+## Notes
+
+This server is remotely managed over SSH.
