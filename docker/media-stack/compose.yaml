@@ -4,6 +4,10 @@ services:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
     user: "${PUID}:${PGID}"
+    group_add:
+      - "991"
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
     environment:
       - TZ=${TZ}
     volumes:
@@ -78,6 +82,22 @@ services:
     networks:
       - media
 
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_ROOT}/bazarr:/config
+      - ${DATA_ROOT}:/data
+    ports:
+      - "${TS_IP}:6767:6767"
+    restart: unless-stopped
+    networks:
+      - media
+
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -91,7 +111,7 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ${CONFIG_ROOT}/qbittorrent:/config
-      - ${DATA_ROOT}/torrents:/downloads
+      - ${DATA_ROOT}:/data
     ports:
       - "${TS_IP}:8085:8085"
     restart: unless-stopped

@@ -16,3 +16,4 @@ id_ed25519_*
 *.tmp
 *.log
 *~
+HANDOFF.md

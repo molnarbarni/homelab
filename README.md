@@ -8,6 +8,7 @@ Personal homelab for learning Linux system administration, cloud and DevOps.
 - Bash scripting
 - Git and GitHub
 - Docker
+- Self-hosted media server and automation
 - Terraform
 - Microsoft Azure
 - CI/CD
@@ -17,4 +18,4 @@ Personal homelab for learning Linux system administration, cloud and DevOps.
 
 - Ubuntu Server
 - Home lab laptop
-- Remote administration via SSH
+- Remote administration via SSH and Tailscale
