@@ -19,3 +19,13 @@ Personal homelab for learning Linux system administration, cloud and DevOps.
 - Ubuntu Server
 - Home lab laptop
 - Remote administration via SSH and Tailscale
+
+## Local Project Handoff
+
+A detailed project handoff file is stored locally on the server at:
+
+`~/homelab/HANDOFF.md`
+
+The file contains the current technical state of the homelab.
+
+`HANDOFF.md` is intentionally excluded from Git and is not stored on GitHub.
