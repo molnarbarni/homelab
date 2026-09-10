@@ -13,9 +13,11 @@ services:
     volumes:
       - ${CONFIG_ROOT}/jellyfin:/config
       - ${CONFIG_ROOT}/jellyfin-cache:/cache
-      - ${DATA_ROOT}/media:/media:ro
+      - /mnt/old-media/Filmek:/media/movies:ro
+      - /mnt/old-media/Sorozatok:/media/tv:ro
     ports:
       - "${TS_IP}:8096:8096"
+      - "192.168.0.167:8096:8096"
     restart: unless-stopped
     networks:
       - media
@@ -30,6 +32,7 @@ services:
     volumes:
       - ${CONFIG_ROOT}/seerr:/app/config
     ports:
+      - "192.168.0.167:5055:5055"
       - "${TS_IP}:5055:5055"
     restart: unless-stopped
     networks:
@@ -46,6 +49,7 @@ services:
       - ${CONFIG_ROOT}/sonarr:/config
       - ${DATA_ROOT}:/data
     ports:
+      - "192.168.0.167:8989:8989"
       - "${TS_IP}:8989:8989"
     restart: unless-stopped
     networks:
@@ -63,6 +67,7 @@ services:
       - ${DATA_ROOT}:/data
     ports:
       - "${TS_IP}:7878:7878"
+      - "192.168.0.167:7878:7878"
     restart: unless-stopped
     networks:
       - media
@@ -78,6 +83,7 @@ services:
       - ${CONFIG_ROOT}/prowlarr:/config
     ports:
       - "${TS_IP}:9696:9696"
+      - "192.168.0.167:9696:9696"
     restart: unless-stopped
     networks:
       - media
@@ -94,6 +100,7 @@ services:
       - ${DATA_ROOT}:/data
     ports:
       - "${TS_IP}:6767:6767"
+      - "192.168.0.167:6767:6767"
     restart: unless-stopped
     networks:
       - media
@@ -114,6 +121,7 @@ services:
       - ${DATA_ROOT}:/data
     ports:
       - "${TS_IP}:8085:8085"
+      - "192.168.0.167:8085:8085"
     restart: unless-stopped
     networks:
       - media
