@@ -1,0 +1,78 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["prometheus:9090"]
+
+  - job_name: node
+    static_configs:
+      - targets: ["node-exporter:9100"]
+        labels:
+          instance: "vostro-server"
+
+  - job_name: cadvisor
+    static_configs:
+      - targets: ["cadvisor:8080"]
+
+  - job_name: blackbox-icmp
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets: ["192.168.1.1"]
+        labels:
+          target_name: "telekom-router"
+      - targets: ["1.1.1.1"]
+        labels:
+          target_name: "internet-connectivity"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [target_name]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: blackbox-exporter
+    static_configs:
+      - targets: ["blackbox-exporter:9115"]
+
+  - job_name: blackbox-http
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets: ["http://192.168.1.167:8096/"]
+        labels:
+          target_name: "jellyfin"
+      - targets: ["http://192.168.1.167:18080/"]
+        labels:
+          target_name: "opportunity-radar"
+      - targets: ["http://192.168.1.167:8085/"]
+        labels:
+          target_name: "qbittorrent"
+      - targets: ["http://192.168.1.167:9696/"]
+        labels:
+          target_name: "prowlarr"
+      - targets: ["http://192.168.1.167:5055/"]
+        labels:
+          target_name: "seerr"
+      - targets: ["http://192.168.1.167:8989/"]
+        labels:
+          target_name: "sonarr"
+      - targets: ["http://192.168.1.167:7878/"]
+        labels:
+          target_name: "radarr"
+      - targets: ["http://192.168.1.167:6767/"]
+        labels:
+          target_name: "bazarr"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [target_name]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

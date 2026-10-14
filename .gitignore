@@ -17,3 +17,29 @@ id_ed25519_*
 *.log
 *~
 HANDOFF.md
+
+# Configuration and backup copies
+*.bak
+*.bak-*
+*.backup
+*.backup-*
+*.before-*
+*.tmp
+*.partial
+
+# Nested Git repositories and local backup data
+**/.git/
+**/backups/
+
+# Local application secrets
+**/.env
+
+# Generated or potentially sensitive project artifacts
+docker/opportunity-radar/audi-page19.png
+docker/opportunity-radar/importer/*.pdf
+docker/opportunity-radar/importer/*.txt
+docker/opportunity-radar/importer/test-output.json
+docker/opportunity-radar/api/test-output.json
+
+# Separately maintained application repository
+docker/opportunity-radar/
