@@ -40,8 +40,8 @@ h2{font-size:17px;margin:7px 0 0;letter-spacing:-.3px}
 .legend span{display:flex;align-items:center;gap:7px}
 .legend-dot{width:7px;height:7px;border-radius:50%}
 .cpu-dot{background:var(--cyan)}.memory-dot{background:var(--blue)}
-.lower-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:0 18px}
-.lower-grid .panel{height:100%}
+.lower-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin-top:18px;align-items:stretch}
+.lower-grid .panel{height:auto;margin-top:0;min-width:0}
 .availability-summary{display:flex;align-items:baseline;gap:9px;margin:25px 0 17px}
 .availability-summary strong{font-size:31px;letter-spacing:-1px}
 .availability-summary span{color:var(--muted);font-size:12px}
