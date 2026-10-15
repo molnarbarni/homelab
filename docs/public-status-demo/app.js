@@ -91,10 +91,25 @@ async function load() {
     renderChart(data.history);
     renderServices(data.services);
 
-    $('updated').textContent = 'Synthetic sample dataset';
-    $('updated-top').textContent = 'SYNTHETIC DATA';
-    $('footer-time').textContent = 'Static demonstration · not live';
-    $('snapshot-age').textContent = 'Static sample';
+    const generatedAt = data.generated_at ? new Date(data.generated_at) : null;
+    const generatedValid = generatedAt && Number.isFinite(generatedAt.getTime());
+    const generatedLabel = generatedValid
+      ? generatedAt.toLocaleString([], {dateStyle:'medium', timeStyle:'short'})
+      : 'Unknown sample date';
+    let ageLabel = 'Age unavailable';
+    if (generatedValid) {
+      const ageMs = Math.max(0, Date.now() - generatedAt.getTime());
+      const ageMinutes = Math.floor(ageMs / 60000);
+      ageLabel = ageMinutes < 60
+        ? `${ageMinutes}m old`
+        : ageMinutes < 1440
+          ? `${Math.floor(ageMinutes / 60)}h ${ageMinutes % 60}m old`
+          : `${Math.floor(ageMinutes / 1440)}d ${Math.floor(ageMinutes % 1440 / 60)}h old`;
+    }
+    $('updated').textContent = generatedLabel;
+    $('updated-top').textContent = generatedValid ? `SAMPLE · ${ageLabel.toUpperCase()}` : 'SYNTHETIC DATA';
+    $('footer-time').textContent = `Sample generated ${generatedLabel} · ${ageLabel}`;
+    $('snapshot-age').textContent = ageLabel;
 
     $('overall-status').textContent = 'DEMO MODE';
     const dot = document.querySelector('.live-dot');
