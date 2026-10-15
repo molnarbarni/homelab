@@ -38,7 +38,7 @@ function renderServices(services) {
   const items = Array.isArray(services) ? services : [];
   const ok = items.filter(s => s.up).length;
   $('checks-ok').textContent = items.length ? `${ok}/${items.length}` : '—';
-  $('checks-total').textContent = items.length ? 'checks passing' : 'no check data';
+  $('checks-total').textContent = items.length ? 'sample states shown' : 'no sample data';
   $('service-list').replaceChildren();
   if (!items.length) {
     $('service-list').innerHTML = '<div class="empty">No availability data available.</div>';
@@ -56,8 +56,8 @@ function renderServices(services) {
     const state = document.createElement('span');
     state.className = `status-label${service.up ? '' : ' down'}`;
     state.textContent = Number.isFinite(service.passing) && Number.isFinite(service.total)
-      ? `${service.passing}/${service.total} PASSING`
-      : (service.up ? 'OPERATIONAL' : 'DEGRADED');
+      ? `${service.passing}/${service.total} SAMPLE`
+      : (service.up ? 'SAMPLE OK' : 'SAMPLE DOWN');
     left.append(dot, name);
     row.append(left, state);
     $('service-list').append(row);
@@ -91,35 +91,22 @@ async function load() {
     renderChart(data.history);
     renderServices(data.services);
 
-    const stamp = new Date(data.generated_at);
-    $('updated').textContent = stamp.toLocaleString();
-    $('updated-top').textContent = stamp.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    $('footer-time').textContent = `Updated ${stamp.toLocaleString()}`;
-    const age = Math.max(0,Math.floor((Date.now()-stamp.getTime())/1000));
-    $('snapshot-age').textContent = age < 90 ? `${age}s ago` : `${Math.floor(age/60)}m ago`;
-    const fresh = age < 420;
-    const delayed = age >= 420 && age < 900;
+    $('updated').textContent = 'Synthetic sample dataset';
+    $('updated-top').textContent = 'SYNTHETIC DATA';
+    $('footer-time').textContent = 'Static demonstration · not live';
+    $('snapshot-age').textContent = 'Static sample';
 
-    $('overall-status').textContent = fresh
-      ? 'TELEMETRY ONLINE'
-      : delayed ? 'UPDATE DELAYED' : 'DATA STALE';
-
+    $('overall-status').textContent = 'DEMO MODE';
     const dot = document.querySelector('.live-dot');
-    dot.style.background = fresh ? 'var(--green)' : 'var(--red)';
-    dot.title = fresh ? 'Snapshot is current' : delayed
-      ? 'Snapshot is older than seven minutes'
-      : 'Snapshot is older than fifteen minutes';
-
-    $('snapshot-age').textContent = age < 90
-      ? `${age}s ago`
-      : `${Math.floor(age / 60)}m ago`;
+    dot.style.background = '#718bff';
+    dot.title = 'Synthetic sample data; no live monitoring connection';
   } catch (error) {
     $('overall-status').textContent = 'SNAPSHOT UNAVAILABLE';
     $('updated-top').textContent = 'LOAD FAILED';
     $('snapshot-age').textContent = 'Unavailable';
     document.querySelector('.live-dot').style.background = 'var(--red)';
     document.querySelector('.live-dot').title = 'Unable to load public telemetry';
-    console.error('Public telemetry load failed:', error);
+    console.error('Synthetic demo data could not be loaded:', error);
   }
 }
 load();
