@@ -38,7 +38,7 @@ function renderServices(services) {
   const items = Array.isArray(services) ? services : [];
   const ok = items.filter(s => s.up).length;
   $('checks-ok').textContent = items.length ? `${ok}/${items.length}` : '—';
-  $('checks-total').textContent = items.length ? 'checks passing' : 'no check data';
+  $('checks-total').textContent = items.length ? 'sample states shown' : 'no sample data';
   $('service-list').replaceChildren();
   if (!items.length) {
     $('service-list').innerHTML = '<div class="empty">No availability data available.</div>';
@@ -56,8 +56,8 @@ function renderServices(services) {
     const state = document.createElement('span');
     state.className = `status-label${service.up ? '' : ' down'}`;
     state.textContent = Number.isFinite(service.passing) && Number.isFinite(service.total)
-      ? `${service.passing}/${service.total} PASSING`
-      : (service.up ? 'OPERATIONAL' : 'DEGRADED');
+      ? `${service.passing}/${service.total} SAMPLE`
+      : (service.up ? 'SAMPLE OK' : 'SAMPLE DOWN');
     left.append(dot, name);
     row.append(left, state);
     $('service-list').append(row);
@@ -91,7 +91,6 @@ async function load() {
     renderChart(data.history);
     renderServices(data.services);
 
-    const stamp = new Date(data.generated_at);
     $('updated').textContent = 'Synthetic sample dataset';
     $('updated-top').textContent = 'SYNTHETIC DATA';
     $('footer-time').textContent = 'Static demonstration · not live';
