@@ -28,14 +28,14 @@
     <main>
       <section class="hero">
         <div>
-          <div class="eyebrow">INFRASTRUCTURE DASHBOARD <span class="pill">SYNTHETIC DEMO</span></div>
+          <div class="eyebrow">INFRASTRUCTURE DASHBOARD <span class="pill" id="mode-pill">SYNTHETIC DEMO</span></div>
           <h1>Operations <span>Center</span></h1>
-          <p class="subtitle">An illustrative dashboard preview. All displayed values and service states are synthetic; this page is not connected to live infrastructure.</p>
+          <p class="subtitle" id="dashboard-subtitle">An illustrative dashboard preview. All displayed values and service states are synthetic; this page is not connected to live infrastructure.</p>
         </div>
         <div class="hero-meta">
-          <span class="meta-label">SAMPLE DATASET</span>
+          <span class="meta-label" id="dataset-label">SAMPLE DATASET</span>
           <strong id="updated">Synthetic sample</strong>
-          <span class="meta-small">Illustrative values · Not live telemetry</span>
+          <span class="meta-small" id="dataset-note">Illustrative values · Not live telemetry</span>
         </div>
       </section>
 
@@ -97,7 +97,7 @@
       <section class="panel">
         <div class="section-head">
           <div><div class="eyebrow">PERFORMANCE</div><h2>Resource utilization</h2></div>
-          <span class="range-label">SAMPLE HISTORY · 24H</span>
+          <span class="range-label" id="history-label">SAMPLE HISTORY · 24H</span>
         </div>
         <div class="chart-wrap"><canvas id="resource-chart" aria-label="Synthetic sample timeline for CPU, memory and disk utilization"></canvas></div>
         <div class="legend">
@@ -110,10 +110,10 @@
 
       <section class="lower-grid">
         <article class="panel">
-          <div class="section-head"><div><div class="eyebrow">EXAMPLE</div><h2>Sample service states</h2></div><span class="range-label">SYNTHETIC</span></div>
+          <div class="section-head"><div><div class="eyebrow" id="service-eyebrow">EXAMPLE</div><h2 id="service-title">Sample service states</h2></div><span class="range-label" id="service-mode">SYNTHETIC</span></div>
           <div class="availability-summary"><strong id="checks-ok">—</strong><span id="checks-total">checks passing</span></div>
           <div id="service-list" class="service-list"><div class="empty">Waiting for monitoring data…</div></div>
-          <p class="footnote">These service states are sample values for demonstration only and are not real health checks.</p>
+          <p class="footnote" id="service-footnote">These service states are sample values for demonstration only and are not real health checks.</p>
         </article>
         <article class="panel">
           <div class="section-head"><div><div class="eyebrow">CAPACITY</div><h2>Storage & runtime</h2></div><span class="range-label">SAMPLE</span></div>
@@ -133,7 +133,7 @@
         </article>
       </section>
 
-      <section class="notice"><span class="notice-icon">ⓘ</span><div><strong>Synthetic demo only</strong><p>All metrics, timestamps, charts, and service states on this page are illustrative sample data. This public page does not query the home server or prove current service availability.</p></div></section>
+      <section class="notice" id="mode-notice"><span class="notice-icon">ⓘ</span><div><strong id="notice-title">Synthetic demo only</strong><p id="notice-description">All metrics, timestamps, charts, and service states on this page are illustrative sample data. This public page does not query the home server or prove current service availability.</p></div></section>
     </main>
 
     <footer><span>HOMELAB OPERATIONS CENTER <span class="muted">· BUILT FOR INFRASTRUCTURE OBSERVABILITY</span></span><span id="footer-time">Waiting for data</span></footer>
