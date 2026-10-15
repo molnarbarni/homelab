@@ -21,7 +21,7 @@ prune_external_backups() {
     echo "Régi külső mentések takarítása (legfeljebb 7 példány)..."
     mapfile -t backups < <(
         find "$DST" -maxdepth 1 -type f \
-            -name 'homelab-*.tar.gz' -printf '%f\\n' | sort -r
+            -name 'homelab-*.tar.gz' -printf '%f\n' | sort -r
     )
 
     if (( ${#backups[@]} > 7 )); then
