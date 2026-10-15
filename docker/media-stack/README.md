@@ -1,138 +1,53 @@
 # Media Server Stack
 
-Self-hosted Docker Compose media server running on my Ubuntu Server homelab.
-
-This project is both a usable home media server and a practical environment for learning Docker, Linux administration, networking, storage and service integration.
-
-## Goals
-
-- Self-host movies and TV shows with Jellyfin
-- Request movies and TV shows through Seerr
-- Manage movies with Radarr
-- Manage TV shows with Sonarr
-- Centralize indexer management with Prowlarr
-- Automatically manage English subtitles with Bazarr
-- Use qBittorrent as the download client
-- Prefer 1080p media with reasonable file sizes
-- Use Intel Quick Sync for Jellyfin hardware transcoding
-- Store media on an external HDD
-- Keep application configuration separate from media storage
-- Access services remotely through Tailscale
-- Avoid exposing services directly to the public internet
+A self-hosted media stack managed with Docker Compose on an Ubuntu Server homelab. This project provides practical experience with Linux administration, containers, networking, storage and service integration.
 
 ## Services
 
-### Jellyfin
+| Service | Purpose |
+|---|---|
+| Jellyfin | Media playback |
+| Seerr | Media requests |
+| Sonarr | TV library management |
+| Radarr | Movie library management |
+| Prowlarr | Centralized indexer management |
+| Bazarr | Subtitle management |
+| qBittorrent | Download client |
+| FlareSolverr | Compatibility helper for supported web challenges |
 
-Media server and playback frontend.
+## Design
 
-- Container: `jellyfin`
-- Port: `8096`
-- Movies: `/media/movies`
-- TV Shows: `/media/tv`
-- Intel Quick Sync hardware acceleration enabled
-- Intel HD Graphics 620 exposed as `/dev/dri/renderD128`
+- Services are managed as a Docker Compose stack.
+- Application configuration is kept separate from media files.
+- Media is stored on an external disk.
+- Tailscale is used for private remote access.
+- The setup is intended to avoid exposing management interfaces directly to the public internet.
+- Credentials, API keys, cookies, session data and environment files are kept outside Git.
 
-### Seerr
+## Media and download paths
 
-Movie and TV request interface.
+The current setup uses separate library folders for movies and TV, plus separate torrent folders for incomplete downloads and completed categories. Exact host paths and mount details are environment-specific; check the private Compose configuration before making changes.
 
-Connected to:
+Inside the stack, services should communicate through their Docker service names rather than hard-coded host addresses.
 
-- Jellyfin
-- Radarr
-- Sonarr
+## Hardware transcoding
 
-### Radarr
+Jellyfin's Intel Quick Sync hardware transcoding was tested using the host's Intel integrated graphics. Re-check device access and playback transcoding after host, container or driver changes.
 
-Movie library management.
+## Indexers and application settings
 
-Root folder:
+Prowlarr manages indexer integration with Sonarr and Radarr. Indexer accounts, site names, credentials, cookies and detailed private application settings are intentionally not published here.
 
-`/data/media/movies`
+Quality profiles, root folders, subtitle preferences and download-client settings can change over time. Treat the running application configuration as authoritative and avoid relying on stale values in this README.
 
-1080p quality configuration:
+## Startup and troubleshooting
 
-- WEB 1080p
-- Bluray 1080p
-- HDTV 1080p
-- No 4K
-- No Remux
+The stack is started through Docker Compose, with a systemd unit used for host startup orchestration. For troubleshooting:
 
-Preferred order:
+1. Check the relevant systemd unit and its journal.
+2. Inspect Compose service status and recent logs.
+3. Validate the Compose configuration.
+4. Check disk mount availability and permissions.
+5. Verify Tailscale connectivity separately from LAN access.
 
-1. WEB 1080p
-2. Bluray 1080p
-3. HDTV 1080p
-
-Upgrade cutoff:
-
-`WEB 1080p`
-
-### Sonarr
-
-TV series library management.
-
-Root folder:
-
-`/data/media/tv`
-
-1080p quality configuration:
-
-- WEB 1080p
-- Bluray 1080p
-- HDTV 1080p
-- No 720p
-- No 4K
-- No Remux
-
-Preferred order:
-
-1. WEB 1080p
-2. Bluray 1080p
-3. HDTV 1080p
-
-Upgrade cutoff:
-
-`WEB 1080p`
-
-### Prowlarr
-
-Centralized indexer management.
-
-Connected to:
-
-- Sonarr
-- Radarr
-
-No indexers are configured yet.
-
-### Bazarr
-
-Automatic subtitle management.
-
-Current configuration:
-
-- Connected to Sonarr
-- Connected to Radarr
-- English subtitle profile
-- English is the default profile for new movies and series
-- OpenSubtitles.com provider configured
-
-The target is English subtitles with English audio.
-
-### qBittorrent
-
-Download client.
-
-Current download structure:
-
-```text
-/data/
-├── media/
-│   ├── movies/
-│   └── tv/
-└── torrents/
-    ├── incomplete/
-    ├── movies/
-    └── tv/
+See the [homelab operations guide](../../docs/OPERATIONS.md) and [sanitized setup overview](../../docs/CURRENT-SETUP.md).
