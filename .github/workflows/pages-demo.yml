@@ -2,6 +2,11 @@ name: Publish Homelab Dashboard Demo
 
 on:
   workflow_dispatch:
+    inputs:
+      snapshot:
+        description: Base64-encoded live snapshot JSON from the homelab publisher
+        required: false
+        type: string
   push:
     branches:
       - main
@@ -28,14 +33,52 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Validate and apply live snapshot
+        if: ${{ inputs.snapshot != '' }}
+        env:
+          SNAPSHOT_B64: ${{ inputs.snapshot }}
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          raw = base64.b64decode(os.environ["SNAPSHOT_B64"], validate=True)
+          snapshot = json.loads(raw)
+          if snapshot.get("schema") != 1 or snapshot.get("mode") != "live":
+              raise SystemExit("Rejected snapshot: expected schema 1 and mode=live")
+          if not isinstance(snapshot.get("current"), dict):
+              raise SystemExit("Rejected snapshot: current metrics missing")
+          if not isinstance(snapshot.get("history"), list) or not isinstance(snapshot.get("services"), list):
+              raise SystemExit("Rejected snapshot: history/services must be arrays")
+          stamp = datetime.fromisoformat(snapshot["generated_at"].replace("Z", "+00:00"))
+          if stamp.tzinfo is None:
+              raise SystemExit("Rejected snapshot: generated_at must include a timezone")
+          age = (datetime.now(timezone.utc) - stamp.astimezone(timezone.utc)).total_seconds()
+          if age < -300 or age > 1800:
+              raise SystemExit(f"Rejected stale/future snapshot: age={age:.0f}s")
+          required = ("cpu", "memory", "disk", "uptime", "load", "memory_available_gb",
+                      "memory_total_gb", "disk_available_gb", "disk_total_gb",
+                      "network_rx_mbps", "network_tx_mbps")
+          if any(not isinstance(snapshot["current"].get(key), (int, float)) for key in required):
+              raise SystemExit("Rejected snapshot: one or more required metrics are not numeric")
+          Path("docs/public-status-demo/data.json").write_text(
+              json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8",
+          )
+          print("Validated live snapshot; publishing it to GitHub Pages.")
+          PY
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload dashboard demo
+      - name: Upload dashboard
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/public-status-demo
 
-      - name: Deploy dashboard demo
+      - name: Deploy dashboard
         id: deployment
         uses: actions/deploy-pages@v4

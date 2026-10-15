@@ -1,0 +1,14 @@
+[Unit]
+Description=Publish read-only live Homelab dashboard metrics
+After=network-online.target docker.service tailscaled.service
+Wants=network-online.target tailscaled.service
+
+[Service]
+Type=oneshot
+User=barni
+EnvironmentFile=/home/barni/.config/homelab-dashboard.env
+ExecStart=/usr/bin/python3 /home/barni/homelab/scripts/publish-dashboard-snapshot.py
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
