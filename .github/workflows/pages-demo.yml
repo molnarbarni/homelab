@@ -65,7 +65,7 @@ jobs:
           if any(not isinstance(snapshot["current"].get(key), (int, float)) for key in required):
               raise SystemExit("Rejected snapshot: one or more required metrics are not numeric")
           Path("docs/public-status-demo/data.json").write_text(
-              json.dumps(snapshot, indent=2, ensure_ascii=False) + "\\n",
+              json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n",
               encoding="utf-8",
           )
           print("Validated live snapshot; publishing it to GitHub Pages.")
