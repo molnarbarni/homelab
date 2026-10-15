@@ -2,6 +2,12 @@ name: Publish Homelab Dashboard Demo
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/public-status-demo/**'
+      - '.github/workflows/pages-demo.yml'
 
 permissions:
   contents: read
