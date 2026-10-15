@@ -61,16 +61,17 @@ Useful commands:
 
 Replace `UNIT` with the actual unit name.
 
-## Known media-stack startup consideration
+## Media-stack startup checks
 
-The media-stack systemd unit has previously used a LAN-address check that did not match the host's current subnet. This may affect automatic startup after a reboot.
+The media stack uses a systemd unit to coordinate startup with host dependencies. Network and storage readiness can affect startup after a reboot.
 
-If the media stack does not start automatically:
+If the stack does not start automatically:
 
 1. Inspect the unit with `systemctl status`.
 2. Read its logs with `journalctl`.
-3. Check the address expected by the unit against the current host network configuration.
-4. Confirm the Docker Compose stack state before attempting recovery.
+3. Check the current host network configuration and required mounts.
+4. Validate the Compose configuration.
+5. Confirm the container state before attempting recovery.
 
 Do not assume that an inactive systemd unit means all containers are stopped; inspect the containers separately.
 
