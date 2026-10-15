@@ -1,7 +1,7 @@
 [Unit]
 Description=Publish read-only live Homelab dashboard metrics
-After=network-online.target docker.service
-Wants=network-online.target
+After=network-online.target docker.service tailscaled.service
+Wants=network-online.target tailscaled.service
 
 [Service]
 Type=oneshot
