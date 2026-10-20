@@ -22,10 +22,10 @@ scrape_configs:
     params:
       module: [icmp]
     static_configs:
-      - targets: ["${ROUTER_PROBE_TARGET}"]
+      - targets: ["192.0.2.1"] # Documentation placeholder; replace in local config
         labels:
           target_name: "router"
-      - targets: ["${INTERNET_CONNECTIVITY_TARGET}"]
+      - targets: ["1.1.1.1"]
         labels:
           target_name: "internet-connectivity"
     relabel_configs:
@@ -45,28 +45,28 @@ scrape_configs:
     params:
       module: [http_2xx]
     static_configs:
-      - targets: ["${JELLYFIN_TARGET_URL}"]
+      - targets: ["http://jellyfin.example.invalid:8096/"]
         labels:
           target_name: "jellyfin"
-      - targets: ["${OPPORTUNITY_RADAR_TARGET_URL}"]
+      - targets: ["http://opportunity-radar.example.invalid:18080/"]
         labels:
           target_name: "opportunity-radar"
-      - targets: ["${QBITTORRENT_TARGET_URL}"]
+      - targets: ["http://qbittorrent.example.invalid:8085/"]
         labels:
           target_name: "qbittorrent"
-      - targets: ["${PROWLARR_TARGET_URL}"]
+      - targets: ["http://prowlarr.example.invalid:9696/"]
         labels:
           target_name: "prowlarr"
-      - targets: ["${SEERR_TARGET_URL}"]
+      - targets: ["http://seerr.example.invalid:5055/"]
         labels:
           target_name: "seerr"
-      - targets: ["${SONARR_TARGET_URL}"]
+      - targets: ["http://sonarr.example.invalid:8989/"]
         labels:
           target_name: "sonarr"
-      - targets: ["${RADARR_TARGET_URL}"]
+      - targets: ["http://radarr.example.invalid:7878/"]
         labels:
           target_name: "radarr"
-      - targets: ["${BAZARR_TARGET_URL}"]
+      - targets: ["http://bazarr.example.invalid:6767/"]
         labels:
           target_name: "bazarr"
     relabel_configs:
