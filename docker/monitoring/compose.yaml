@@ -5,21 +5,9 @@ services:
     restart: unless-stopped
     command:
       - --config.file=/etc/prometheus/prometheus.yml
-      - --config.expand-env
       - --storage.tsdb.path=/prometheus
       - --storage.tsdb.retention.time=30d
       - --web.enable-lifecycle
-    environment:
-      ROUTER_PROBE_TARGET: ${ROUTER_PROBE_TARGET:-192.0.2.1}
-      INTERNET_CONNECTIVITY_TARGET: ${INTERNET_CONNECTIVITY_TARGET:-1.1.1.1}
-      JELLYFIN_TARGET_URL: ${JELLYFIN_TARGET_URL:-http://jellyfin.example.invalid:8096/}
-      OPPORTUNITY_RADAR_TARGET_URL: ${OPPORTUNITY_RADAR_TARGET_URL:-http://opportunity-radar.example.invalid:18080/}
-      QBITTORRENT_TARGET_URL: ${QBITTORRENT_TARGET_URL:-http://qbittorrent.example.invalid:8085/}
-      PROWLARR_TARGET_URL: ${PROWLARR_TARGET_URL:-http://prowlarr.example.invalid:9696/}
-      SEERR_TARGET_URL: ${SEERR_TARGET_URL:-http://seerr.example.invalid:5055/}
-      SONARR_TARGET_URL: ${SONARR_TARGET_URL:-http://sonarr.example.invalid:8989/}
-      RADARR_TARGET_URL: ${RADARR_TARGET_URL:-http://radarr.example.invalid:7878/}
-      BAZARR_TARGET_URL: ${BAZARR_TARGET_URL:-http://bazarr.example.invalid:6767/}
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
