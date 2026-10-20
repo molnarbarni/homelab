@@ -34,6 +34,12 @@ Opportunity Radar is maintained as a separate project with its own repository an
 
 Repository: https://github.com/molnarbarni/opportunity-radar
 
+## Database administration reference
+
+A sanitized PostgreSQL + pgAdmin Compose example lives in `docker/postgresql-pgadmin/`. It is a **reference stack**, not proof that this separate database is deployed or connected to an application in the live homelab. The example keeps PostgreSQL off published host ports and binds pgAdmin to loopback by default.
+
+pgAdmin administers PostgreSQL; it is not a Microsoft SQL Server management client. See the [database stack guide](../docker/postgresql-pgadmin/README.md).
+
 ## Host automation
 
 Host-level automation includes shell scripts, systemd services, and timers for health checks and backups.
