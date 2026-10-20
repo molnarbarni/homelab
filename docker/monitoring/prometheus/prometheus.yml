@@ -11,7 +11,7 @@ scrape_configs:
     static_configs:
       - targets: ["node-exporter:9100"]
         labels:
-          instance: "vostro-server"
+          instance: "homelab-server"
 
   - job_name: cadvisor
     static_configs:
@@ -22,10 +22,10 @@ scrape_configs:
     params:
       module: [icmp]
     static_configs:
-      - targets: ["192.168.1.1"]
+      - targets: ["${ROUTER_PROBE_TARGET}"]
         labels:
-          target_name: "telekom-router"
-      - targets: ["1.1.1.1"]
+          target_name: "router"
+      - targets: ["${INTERNET_CONNECTIVITY_TARGET}"]
         labels:
           target_name: "internet-connectivity"
     relabel_configs:
@@ -45,28 +45,28 @@ scrape_configs:
     params:
       module: [http_2xx]
     static_configs:
-      - targets: ["http://192.168.1.167:8096/"]
+      - targets: ["${JELLYFIN_TARGET_URL}"]
         labels:
           target_name: "jellyfin"
-      - targets: ["http://192.168.1.167:18080/"]
+      - targets: ["${OPPORTUNITY_RADAR_TARGET_URL}"]
         labels:
           target_name: "opportunity-radar"
-      - targets: ["http://192.168.1.167:8085/"]
+      - targets: ["${QBITTORRENT_TARGET_URL}"]
         labels:
           target_name: "qbittorrent"
-      - targets: ["http://192.168.1.167:9696/"]
+      - targets: ["${PROWLARR_TARGET_URL}"]
         labels:
           target_name: "prowlarr"
-      - targets: ["http://192.168.1.167:5055/"]
+      - targets: ["${SEERR_TARGET_URL}"]
         labels:
           target_name: "seerr"
-      - targets: ["http://192.168.1.167:8989/"]
+      - targets: ["${SONARR_TARGET_URL}"]
         labels:
           target_name: "sonarr"
-      - targets: ["http://192.168.1.167:7878/"]
+      - targets: ["${RADARR_TARGET_URL}"]
         labels:
           target_name: "radarr"
-      - targets: ["http://192.168.1.167:6767/"]
+      - targets: ["${BAZARR_TARGET_URL}"]
         labels:
           target_name: "bazarr"
     relabel_configs:
