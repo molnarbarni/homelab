@@ -36,7 +36,7 @@ chmod 700 /home/barni/homelab/scripts/publish-dashboard-snapshot.py
 Create `/home/barni/.config/homelab-dashboard.env` with these two lines, replacing the token and confirming the current Prometheus address:
 
 ```bash
-PROMETHEUS_URL=http://100.64.72.18:9090
+PROMETHEUS_URL=http://127.0.0.1:9090
 GITHUB_TOKEN=github_pat_REPLACE_WITH_YOUR_TOKEN
 ```
 
@@ -46,7 +46,7 @@ Protect it:
 chmod 600 /home/barni/.config/homelab-dashboard.env
 ```
 
-The Prometheus address is private and should remain reachable only from the server/tailnet. Do **not** expose port 9090 to the public internet.
+This is a loopback-only example. If your local Prometheus binding differs, set the actual private address only in the server-local environment file; do not publish your LAN/Tailscale address in Git. Do **not** expose port 9090 to the public internet.
 
 ### 4. Install and start the timer
 
