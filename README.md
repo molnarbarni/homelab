@@ -18,6 +18,7 @@
 - **Monitoring:** Prometheus, Grafana, Node Exporter, cAdvisor, and Blackbox Exporter
 - **Backup operations:** automated archives, PostgreSQL dumps, checksum validation, and external copies
 - **Self-hosted services:** Jellyfin media stack and supporting applications
+- **Database tooling:** a sanitized PostgreSQL + pgAdmin Compose reference stack, with private-by-default access
 - **Documentation:** setup notes, architecture, operational procedures, troubleshooting, and security scope
 
 ## Architecture at a glance
@@ -39,6 +40,7 @@ The environment runs on an Ubuntu Server host. Docker Compose manages the media 
 - [System basics](linux/system-basics.md)
 - [Shell scripts](bash/README.md)
 - [Media stack](docker/media-stack/README.md)
+- [PostgreSQL + pgAdmin reference stack](docker/postgresql-pgadmin/README.md)
 
 ## Related project
 
