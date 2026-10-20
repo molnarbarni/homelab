@@ -6,6 +6,9 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --config.expand-env
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+      - --web.enable-lifecycle
     environment:
       ROUTER_PROBE_TARGET: ${ROUTER_PROBE_TARGET:-192.0.2.1}
       INTERNET_CONNECTIVITY_TARGET: ${INTERNET_CONNECTIVITY_TARGET:-1.1.1.1}
@@ -17,9 +20,6 @@ services:
       SONARR_TARGET_URL: ${SONARR_TARGET_URL:-http://sonarr.example.invalid:8989/}
       RADARR_TARGET_URL: ${RADARR_TARGET_URL:-http://radarr.example.invalid:7878/}
       BAZARR_TARGET_URL: ${BAZARR_TARGET_URL:-http://bazarr.example.invalid:6767/}
-      - --storage.tsdb.path=/prometheus
-      - --storage.tsdb.retention.time=30d
-      - --web.enable-lifecycle
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
