@@ -51,3 +51,8 @@ The stack is started through Docker Compose, with a systemd unit used for host s
 5. Verify Tailscale connectivity separately from LAN access.
 
 See the [homelab operations guide](../../docs/OPERATIONS.md) and [sanitized setup overview](../../docs/CURRENT-SETUP.md).
+
+
+## Private host configuration
+
+Copy `.env.example` to `.env` and set `LAN_IP` and `TS_IP` to the current host addresses before starting the stack. The committed example contains placeholders only. Do not commit the real `.env`.
