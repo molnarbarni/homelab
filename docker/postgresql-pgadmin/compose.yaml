@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
+    container_name: homelab-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db-admin
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    mem_limit: 512m
+    cpus: 0.50
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+
+  pgadmin:
+    image: ${PGADMIN_IMAGE:-dpage/pgadmin4:9.18}
+    container_name: homelab-pgadmin
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?Set PGADMIN_DEFAULT_EMAIL in .env}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?Set PGADMIN_DEFAULT_PASSWORD in .env}
+      PGADMIN_LISTEN_PORT: "8080"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+    ports:
+      - "${PGADMIN_BIND_IP:-127.0.0.1}:${PGADMIN_PORT:-5050}:8080"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - db-admin
+    mem_limit: 512m
+    cpus: 0.50
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  db-admin:
+    name: homelab-db-admin
+    driver: bridge
+
+volumes:
+  postgres-data:
+  pgadmin-data:
