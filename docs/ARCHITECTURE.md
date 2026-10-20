@@ -28,11 +28,9 @@ Configuration: `docker/monitoring/`
 
 See [Monitoring Documentation](MONITORING.md).
 
-## Opportunity Radar
+## Separate financial-analysis project
 
-Opportunity Radar is maintained as a separate project with its own repository and deployment lifecycle.
-
-Repository: https://github.com/molnarbarni/opportunity-radar
+A financial-analysis application is maintained privately with its own repository and deployment lifecycle. Its source code, imported reports, database and runtime configuration are not part of this public homelab repository.
 
 ## Database administration reference
 
