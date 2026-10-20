@@ -28,6 +28,10 @@ Before publishing changes:
 
 Private LAN addresses are installation-specific, but credentials and externally reachable management interfaces require particular care.
 
+## PostgreSQL and pgAdmin example
+
+The public reference stack at `docker/postgresql-pgadmin/` contains only example configuration and an `.env.example` with placeholders. Its PostgreSQL port is not published to the host, and pgAdmin defaults to loopback. Actual credentials, database dumps, and live host bindings must remain local. Do not commit a filled-in `.env`.
+
 ## Containers and updates
 
 The homelab uses container images for its application stacks.
