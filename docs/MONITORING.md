@@ -24,6 +24,24 @@ Configured checks include host and container metrics, network reachability, and 
 
 Actual targets and probe settings are defined in the monitoring configuration files.
 
+## Private configuration and access
+
+Copy `docker/monitoring/.env.example` to `docker/monitoring/.env`, replace the `example.invalid` URLs and reserved documentation IP with real private targets, and set a unique Grafana administrator password before starting the stack. Never commit the filled-in `.env`.
+
+The public Compose template binds Grafana and Prometheus to `127.0.0.1` by default. Keep these administration interfaces private. Use an SSH tunnel or deliberately configure a specific private interface locally; do not bind them to `0.0.0.0` or expose them to the public internet.
+
+Validate and start from `docker/monitoring/`:
+
+```bash
+cp .env.example .env
+chmod 600 .env
+# Edit .env before running the stack.
+docker compose config -q
+docker compose up -d
+```
+
+The committed target values are placeholders and will not monitor the real local services until replaced.
+
 ## Grafana dashboards
 
 Grafana provides a central view of the homelab's health and resource usage.
