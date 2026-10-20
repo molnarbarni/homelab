@@ -42,9 +42,9 @@ The environment runs on an Ubuntu Server host. Docker Compose manages the media 
 - [Media stack](docker/media-stack/README.md)
 - [PostgreSQL + pgAdmin reference stack](docker/postgresql-pgadmin/README.md)
 
-## Related project
+## Related work
 
-[Opportunity Radar](https://github.com/molnarbarni/opportunity-radar) — a separate project for exploring company financial data and opportunities.
+A separate financial-analysis application is maintained privately and is not part of this public repository.
 
 ## Security and scope
 
