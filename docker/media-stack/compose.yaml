@@ -13,8 +13,8 @@ services:
     volumes:
       - ${CONFIG_ROOT}/jellyfin:/config
       - ${CONFIG_ROOT}/jellyfin-cache:/cache
-      - /mnt/old-media/Filmek:/media/movies
-      - /mnt/old-media/Sorozatok:/media/tv
+      - ${MEDIA_MOVIES_ROOT:-/srv/media/movies}:/media/movies
+      - ${MEDIA_TV_ROOT:-/srv/media/tv}:/media/tv
     ports:
       - "${TS_IP}:8096:8096"
       - "${LAN_IP:?Set LAN_IP in local .env}:8096:8096"
