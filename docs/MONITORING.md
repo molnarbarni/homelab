@@ -26,7 +26,7 @@ Actual targets and probe settings are defined in the monitoring configuration fi
 
 ## Private configuration and access
 
-Copy `docker/monitoring/.env.example` to `docker/monitoring/.env`, replace the `example.invalid` URLs and reserved documentation IP with real private targets, and set a unique Grafana administrator password before starting the stack. Never commit the filled-in `.env`.
+Copy `docker/monitoring/.env.example` to `docker/monitoring/.env` and set a unique Grafana administrator password before starting the stack. Then edit the target addresses/URLs in your **local** `prometheus/prometheus.yml` copy for the actual router and services. The public version deliberately uses documentation placeholders. Never commit a customized config containing private host addresses or the filled-in `.env`.
 
 The public Compose template binds Grafana and Prometheus to `127.0.0.1` by default. Keep these administration interfaces private. Use an SSH tunnel or deliberately configure a specific private interface locally; do not bind them to `0.0.0.0` or expose them to the public internet.
 
@@ -40,7 +40,7 @@ docker compose config -q
 docker compose up -d
 ```
 
-The committed target values are placeholders and will not monitor the real local services until replaced.
+The committed Prometheus target values are placeholders and will not monitor the real local services until you replace them in your local configuration.
 
 ## Grafana dashboards
 
