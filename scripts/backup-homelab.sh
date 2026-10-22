@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 umask 077
 
-BACKUP_DIR="/home/barni/backups/homelab"
+BACKUP_DIR="${BACKUP_DIR:-${HOME:?HOME must be set}/backups/homelab}"
 STAMP="$(date +%Y-%m-%d_%H-%M-%S)"
 WORK_DIR="$(mktemp -d)"
 ARCHIVE="${BACKUP_DIR}/homelab-${STAMP}.tar.gz"
@@ -94,7 +94,7 @@ tar -czf "$ARCHIVE" \
     --exclude='*/jellyfin/metadata/People' \
     --exclude='*/jellyfin/metadata/library' \
     --exclude='*/ipc-socket' \
-    -C /home/barni \
+    -C "$HOME" \
     homelab/bash \
     homelab/scripts \
     homelab/docker/nginx \
