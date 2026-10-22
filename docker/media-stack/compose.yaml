@@ -16,7 +16,7 @@ services:
       - ${MEDIA_MOVIES_ROOT:-/srv/media/movies}:/media/movies
       - ${MEDIA_TV_ROOT:-/srv/media/tv}:/media/tv
     ports:
-      - "${TS_IP}:8096:8096"
+      - "${TS_IP:?Set TS_IP in local .env}:8096:8096"
       - "${LAN_IP:?Set LAN_IP in local .env}:8096:8096"
     restart: unless-stopped
     networks:
@@ -33,7 +33,7 @@ services:
       - ${CONFIG_ROOT}/seerr:/app/config
     ports:
       - "${LAN_IP:?Set LAN_IP in local .env}:5055:5055"
-      - "${TS_IP}:5055:5055"
+      - "${TS_IP:?Set TS_IP in local .env}:5055:5055"
     restart: unless-stopped
     networks:
       - media
@@ -50,7 +50,7 @@ services:
       - ${DATA_ROOT}:/data
     ports:
       - "${LAN_IP:?Set LAN_IP in local .env}:8989:8989"
-      - "${TS_IP}:8989:8989"
+      - "${TS_IP:?Set TS_IP in local .env}:8989:8989"
     restart: unless-stopped
     networks:
       - media
@@ -66,7 +66,7 @@ services:
       - ${CONFIG_ROOT}/radarr:/config
       - ${DATA_ROOT}:/data
     ports:
-      - "${TS_IP}:7878:7878"
+      - "${TS_IP:?Set TS_IP in local .env}:7878:7878"
       - "${LAN_IP:?Set LAN_IP in local .env}:7878:7878"
     restart: unless-stopped
     networks:
@@ -82,7 +82,7 @@ services:
     volumes:
       - ${CONFIG_ROOT}/prowlarr:/config
     ports:
-      - "${TS_IP}:9696:9696"
+      - "${TS_IP:?Set TS_IP in local .env}:9696:9696"
       - "${LAN_IP:?Set LAN_IP in local .env}:9696:9696"
     restart: unless-stopped
     networks:
@@ -111,7 +111,7 @@ services:
       - ${CONFIG_ROOT}/bazarr:/config
       - ${DATA_ROOT}:/data
     ports:
-      - "${TS_IP}:6767:6767"
+      - "${TS_IP:?Set TS_IP in local .env}:6767:6767"
       - "${LAN_IP:?Set LAN_IP in local .env}:6767:6767"
     restart: unless-stopped
     networks:
@@ -132,7 +132,7 @@ services:
       - ${CONFIG_ROOT}/qbittorrent:/config
       - ${DATA_ROOT}:/data
     ports:
-      - "${TS_IP}:8085:8085"
+      - "${TS_IP:?Set TS_IP in local .env}:8085:8085"
       - "${LAN_IP:?Set LAN_IP in local .env}:8085:8085"
     restart: unless-stopped
     mem_limit: 1g
