@@ -16,6 +16,14 @@ Only metrics and the service names configured in the publisher are published. Do
 
 ## One-time setup on the server
 
+The following is a sanitized reference installation. If your existing server uses different paths or a different service account, adapt these values locally before enabling the unit.
+
+Create the dedicated unprivileged service account if it does not exist:
+
+```bash
+sudo useradd --system --home /nonexistent --shell /usr/sbin/nologin homelab
+```
+
 ### 1. Create a narrowly scoped token
 
 Create a fine-grained personal access token in GitHub for **only** `molnarbarni/homelab`, with **Actions: Read and write** permission. No repository Contents permission is needed. Keep the token private; never commit it or paste it into chat.
