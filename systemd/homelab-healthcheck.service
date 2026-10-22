@@ -1,7 +1,8 @@
 [Unit]
-Description=Barni HomeLab Health Check
+Description=Homelab Health Check
 
 [Service]
 Type=oneshot
-User=barni
-ExecStart=/home/barni/homelab/bash/healthcheck.sh
+User=homelab
+# Public reference template: install the script at this path or edit ExecStart locally.
+ExecStart=/opt/homelab/bash/healthcheck.sh
