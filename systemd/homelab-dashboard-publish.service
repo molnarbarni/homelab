@@ -3,11 +3,13 @@ Description=Publish read-only live Homelab dashboard metrics
 After=network-online.target docker.service tailscaled.service
 Wants=network-online.target tailscaled.service
 
+# Public template: create the homelab service account and install the script at
+# /opt/homelab/scripts/publish-dashboard-snapshot.py before enabling this unit.
 [Service]
 Type=oneshot
-User=barni
-EnvironmentFile=/home/barni/.config/homelab-dashboard.env
-ExecStart=/usr/bin/python3 /home/barni/homelab/scripts/publish-dashboard-snapshot.py
+User=homelab
+EnvironmentFile=/etc/homelab-dashboard.env
+ExecStart=/usr/bin/python3 /opt/homelab/scripts/publish-dashboard-snapshot.py
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
