@@ -22,18 +22,19 @@ Create a fine-grained personal access token in GitHub for **only** `molnarbarni/
 
 ### 2. Install the publisher script
 
-Run on the server as `barni`:
+Install the publisher script under `/opt/homelab` and run the service as a dedicated unprivileged `homelab` account:
 
 ```bash
-mkdir -p /home/barni/.config
-curl -fsSL https://raw.githubusercontent.com/molnarbarni/homelab/main/scripts/publish-dashboard-snapshot.py \
-  -o /home/barni/homelab/scripts/publish-dashboard-snapshot.py
-chmod 700 /home/barni/homelab/scripts/publish-dashboard-snapshot.py
+sudo install -d -o homelab -g homelab -m 0750 /opt/homelab/scripts
+sudo curl -fsSL https://raw.githubusercontent.com/molnarbarni/homelab/main/scripts/publish-dashboard-snapshot.py \
+  -o /opt/homelab/scripts/publish-dashboard-snapshot.py
+sudo chown homelab:homelab /opt/homelab/scripts/publish-dashboard-snapshot.py
+sudo chmod 0750 /opt/homelab/scripts/publish-dashboard-snapshot.py
 ```
 
 ### 3. Configure the local-only environment file
 
-Create `/home/barni/.config/homelab-dashboard.env` with these two lines, replacing the token and confirming the current Prometheus address:
+Create `/etc/homelab-dashboard.env` with these two lines, replacing the token and confirming the current Prometheus address:
 
 ```bash
 PROMETHEUS_URL=http://127.0.0.1:9090
@@ -43,7 +44,7 @@ GITHUB_TOKEN=github_pat_REPLACE_WITH_YOUR_TOKEN
 Protect it:
 
 ```bash
-chmod 600 /home/barni/.config/homelab-dashboard.env
+sudo chmod 600 /etc/homelab-dashboard.env
 ```
 
 This is a loopback-only example. If your local Prometheus binding differs, set the actual private address only in the server-local environment file; do not publish your LAN/Tailscale address in Git. Do **not** expose port 9090 to the public internet.
@@ -51,8 +52,8 @@ This is a loopback-only example. If your local Prometheus binding differs, set t
 ### 4. Install and start the timer
 
 ```bash
-sudo install -m 0644 /home/barni/homelab/systemd/homelab-dashboard-publish.service /etc/systemd/system/
-sudo install -m 0644 /home/barni/homelab/systemd/homelab-dashboard-publish.timer /etc/systemd/system/
+sudo install -m 0644 /opt/homelab/systemd/homelab-dashboard-publish.service /etc/systemd/system/
+sudo install -m 0644 /opt/homelab/systemd/homelab-dashboard-publish.timer /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now homelab-dashboard-publish.timer
 sudo systemctl start homelab-dashboard-publish.service
