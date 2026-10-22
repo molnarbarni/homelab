@@ -21,7 +21,7 @@ The following is a sanitized reference installation. If your existing server use
 Create the dedicated unprivileged service account if it does not exist:
 
 ```bash
-sudo useradd --system --home /nonexistent --shell /usr/sbin/nologin homelab
+id -u homelab >/dev/null 2>&1 || sudo useradd --system --home /nonexistent --shell /usr/sbin/nologin homelab
 ```
 
 ### 1. Create a narrowly scoped token
