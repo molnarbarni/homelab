@@ -2,8 +2,9 @@
 set -Eeuo pipefail
 umask 077
 
-SRC="/home/barni/backups/homelab"
-DST="/mnt/old-media/backups/homelab"
+SRC="${BACKUP_DIR:-${HOME:?HOME must be set}/backups/homelab}"
+MEDIA_MOUNT="${EXTERNAL_MEDIA_MOUNT:-/mnt/old-media}"
+DST="${EXTERNAL_BACKUP_DIR:-${MEDIA_MOUNT}/backups/homelab}"
 PARTIAL=""
 
 cleanup() {
@@ -32,7 +33,7 @@ prune_external_backups() {
     fi
 }
 
-if ! mountpoint -q /mnt/old-media; then
+if ! mountpoint -q "$MEDIA_MOUNT"; then
     echo "HIBA: a külső lemez nincs csatlakoztatva." >&2
     exit 1
 fi
