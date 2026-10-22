@@ -1,18 +1,22 @@
 [Unit]
-Description=Home Media Docker Compose Stack
+Description=Home Media Docker Compose Stack (sanitized reference template)
 Requires=docker.service
 After=docker.service network-online.target tailscaled.service
 Wants=network-online.target tailscaled.service
-RequiresMountsFor=/mnt/old-media
+RequiresMountsFor=/srv/media
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/barni/homelab/docker/media-stack
+WorkingDirectory=/opt/homelab/docker/media-stack
+EnvironmentFile=-/etc/default/homelab-media-stack
 
-ExecStartPre=/bin/bash -c 'until ip -4 addr | grep -q "192.168.0.167/"; do sleep 2; done'
-ExecStartPre=/bin/bash -c 'until ip -4 addr | grep -q "100.64.72.18/"; do sleep 2; done'
-ExecStartPre=/bin/bash -c 'ls /mnt/old-media >/dev/null'
+# Define LAN_IP and TS_IP in /etc/default/homelab-media-stack.
+ExecStartPre=/bin/bash -ec 'test -n "${LAN_IP:-}"'
+ExecStartPre=/bin/bash -ec 'test -n "${TS_IP:-}"'
+ExecStartPre=/bin/bash -ec 'until ip -4 addr | grep -Fq "${LAN_IP}/"; do sleep 2; done'
+ExecStartPre=/bin/bash -ec 'until ip -4 addr | grep -Fq "${TS_IP}/"; do sleep 2; done'
+ExecStartPre=/usr/bin/test -d /srv/media
 
 ExecStart=/usr/bin/docker compose --profile download up -d
 
